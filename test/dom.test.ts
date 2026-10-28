@@ -18,6 +18,14 @@ function layout(nodes: LayoutNode[], anchor: DomLayout["regions"][0]["anchor"] =
 }
 
 test("blend modes map to CSS only where CSS has the mode", () => {
+    for (const mode of ["MULTIPLY", "SCREEN", "OVERLAY", "DARKEN", "LIGHTEN", "COLOR_DODGE", "COLOR_BURN"]) {
+        assert.equal(figmaBlendToCss(mode), mode.toLowerCase().replace("_", "-"));
+    }
+    for (const mode of ["HARD_LIGHT", "SOFT_LIGHT", "DIFFERENCE", "EXCLUSION", "HUE", "SATURATION", "COLOR", "LUMINOSITY"]) {
+        assert.equal(figmaBlendToCss(mode), mode.toLowerCase().replace("_", "-"));
+    }
+    assert.equal(figmaBlendToCss(undefined), null);
+    assert.equal(figmaBlendToCss("LINEAR_BURN"), null);
     assert.equal(figmaBlendToCss("MULTIPLY"), "multiply");
     assert.equal(figmaBlendToCss("color-dodge"), "color-dodge");
     assert.equal(figmaBlendToCss("NORMAL"), null);

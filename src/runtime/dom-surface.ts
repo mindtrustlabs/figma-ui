@@ -31,9 +31,13 @@ export interface DomSurfaceOptions {
     onFragment?: (host: HTMLElement, surface: string) => void;
     /** Default true. */
     hideInPortrait?: boolean;
+    /**
+     * Prefix of the element ids this surface creates: the host is
+     * `<idPrefix>-<surface>` (stylesheets can target it) and its stylesheet link
+     * `<idPrefix>-<surface>-css`. Default "figma-ui".
+     */
+    idPrefix?: string;
 }
-
-const FONTS_CSS_ID = "figma-ui-fonts-css";
 
 interface TrackedListener {
     el: EventTarget;
@@ -63,6 +67,7 @@ export class DomSurface {
             textFloor: { px: 11, belowScale: 0.6 },
             resolveUrl: (u) => u,
             hideInPortrait: true,
+            idPrefix: "figma-ui",
             ...opts,
         };
     }
@@ -70,12 +75,12 @@ export class DomSurface {
     /** Fetch and mount the fragment. Idempotent; a no-op after dispose. */
     public async mount(): Promise<void> {
         if (this._host || this._disposed) return;
-        const { baseDir, fontsCss, resolveUrl } = this.opts;
-        if (fontsCss) ensureCss(FONTS_CSS_ID, resolveUrl(fontsCss));
-        ensureCss(`figma-ui-${this.surface}-css`, resolveUrl(`${baseDir}/${this.surface}.css`));
+        const { baseDir, fontsCss, resolveUrl, idPrefix } = this.opts;
+        if (fontsCss) ensureCss(`${idPrefix}-fonts-css`, resolveUrl(fontsCss));
+        ensureCss(`${idPrefix}-${this.surface}-css`, resolveUrl(`${baseDir}/${this.surface}.css`));
 
         const host = document.createElement("div");
-        host.id = `figma-ui-${this.surface}`;
+        host.id = `${idPrefix}-${this.surface}`;
         host.style.position = "fixed";
         host.style.inset = "0";
         host.style.overflow = "hidden";

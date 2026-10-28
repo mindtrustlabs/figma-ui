@@ -19,7 +19,7 @@ Your app imports only the runtime it uses: a React/Next or plain web project imp
 ## Install
 
 ```bash
-npm i -D github:mindtrustlabs/figma-ui#v0.1.0
+npm i -D github:mindtrustlabs/figma-ui#v0.2.0
 ```
 
 Pin a tag; upgrade per project when you want a newer generator. Node 20+. The asset tools need

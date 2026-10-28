@@ -1,6 +1,6 @@
 {
     "name": "@mindtrustlabs/figma-ui",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Figma frames to game and web UI: one layout format, generators per platform (HTML/CSS, Babylon GUI), asset export and layer compositing.",
     "license": "UNLICENSED",
     "private": true,
@@ -24,6 +24,16 @@
         "./babylon": {
             "types": "./dist/src/runtime/babylon.d.ts",
             "default": "./dist/src/runtime/babylon.js"
+        }
+    },
+    "typesVersions": {
+        "*": {
+            "dom": [
+                "dist/src/runtime/dom-surface.d.ts"
+            ],
+            "babylon": [
+                "dist/src/runtime/babylon.d.ts"
+            ]
         }
     },
     "files": [
