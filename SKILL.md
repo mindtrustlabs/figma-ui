@@ -9,9 +9,12 @@ Read `node_modules/@mindtrustlabs/figma-ui/docs/figma-export-guide.md` (the trap
 `docs/layout-format.md` (the contract) before starting. The project's settings are in
 `figma-ui.config.json`.
 
-1. From the designer's link, take the file key and node id (`12-345` → `12:345`). Read the
-   tree with `get_metadata` and values with `get_figma_data`; run `get_design_context` on every
-   blended, textured or semi-transparent node for opacity and tile sizes.
+1. From the designer's link, take the file key and node id (`12-345` → `12:345`). Take Figma's
+   render of the frame first (`get_design_context` with a screenshot, or `get_screenshot`); it
+   is the target, never an asset. Read the tree with `get_metadata` and values with
+   `get_figma_data`; run `get_design_context` on every blended, textured or semi-transparent
+   node for opacity and tile sizes. If a `get_design_context` response is flagged sparse,
+   request its visible child nodes in one parallel batch and work from those.
 2. Decide what is live (text the game changes, bars, buttons) and what is static art. Name every
    live element with a `bind` (DOM) or a stable node name (Babylon).
 3. Write the layout file in the configured input folder, nodes back to front, with a `_comment`
@@ -24,4 +27,7 @@ Read `node_modules/@mindtrustlabs/figma-ui/docs/figma-export-guide.md` (the trap
 6. Run `npx figma-ui generate`, then bind data in the app through the runtime
    (`figma-ui/dom` `DomSurface` or `figma-ui/babylon` helpers). Never edit generated files.
 7. Add the project's own tests for the bindings, run `npx figma-ui generate --check`, and compare
-   the preview against Figma's render (headless, audio muted). Report what you could not verify.
+   the preview against Figma's render (headless, audio muted). Check every visible static asset
+   in the render: a non-empty shipped file, the right layer slot, referenced by the generated
+   output, rendered at the node's size and position. One wrong asset fails the frame; fix it
+   before finishing. Report what you could not verify.

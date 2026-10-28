@@ -33,9 +33,13 @@ the `node-id` parameter with the dash turned into a colon (`12-345` → `12:345`
 
 ## Procedure
 
-1. **Read the frame.** `get_metadata` for the tree, `get_figma_data` for values,
-   `get_design_context` on every blended, textured or semi-transparent node. Large results land
-   in files; parse them rather than reading them whole.
+1. **Read the frame.** Take Figma's render first (`get_design_context` with a screenshot, or
+   `get_screenshot`): it is the target the result must match, never an asset. Then
+   `get_metadata` for the tree, `get_figma_data` for values, `get_design_context` on every
+   blended, textured or semi-transparent node. When `get_design_context` flags a response as
+   sparse, don't transcribe from it: match its child node ids to the render and request the
+   visible children in one parallel batch. Large results land in files; parse them rather than
+   reading them whole.
 2. **Transcribe** into a layout file (see [layout-format.md](layout-format.md)), back to front.
    Record ids, sources and deviations in `_comment`.
 3. **Export art at 2x** into the git-ignored raw folder, `<logical-name>.png`. Raw files are
@@ -86,6 +90,10 @@ Button states work the same way: composite each state's non-text layers into
    in `_comment`; a single-line label never wraps.
 9. **`use_figma` responses are capped (about 48 KB).** Don't stream images through it; get an
    export URL instead.
+10. **Figma's own `figma-design-to-code` skill says to use only the assets
+    `get_design_context` downloads.** Those are 1x temporary URLs written into hand-made code.
+    Here art comes from the 2x exports in the raw folder and ships through `figma-ui assets`;
+    follow this guide's export step instead.
 
 ## Verify against Figma's render
 
@@ -105,3 +113,6 @@ request.
 - [ ] Composited art has a committed recipe and a clean diff outside the live content.
 - [ ] Fonts are the design's, self-hosted.
 - [ ] A render comparison at the design size was done.
+- [ ] Every visible static asset in the render has a non-empty shipped file, sits in the right
+      layer slot, is referenced by the generated output, and renders at the node's size and
+      position. One missing, swapped or misproportioned asset fails the frame.
