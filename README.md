@@ -60,13 +60,32 @@ root.
 - `cssVarPrefix` names the custom properties the runtime publishes (`--ui-scale`,
   `--ui-text-floor`); pass the same value to `DomSurface`.
 - Keep `rawDir` git-ignored; commit the WebP files and the manifest.
+- `dom` and `assets` also take a list of targets, for a project with more than one surface
+  folder (say, one per game module plus a shared one). Each target has its own `inputDir`,
+  `outDir`, manifest, asset URLs, prefix and preview, and an optional `name`. `inputDir` is
+  not searched recursively, so a shared folder can sit inside another target's input folder.
+  Two `dom` targets may not write to the same `outDir`.
+
+```json
+{
+    "dom": [
+        { "name": "game", "inputDir": "ui/layouts", "outDir": "public/ui/game", "...": "..." },
+        { "name": "shared", "inputDir": "ui/layouts/shared", "outDir": "public/ui/shared", "...": "..." }
+    ],
+    "assets": [
+        { "name": "game", "rawDir": "art/game/_raw", "outDir": "art/game", "...": "..." },
+        { "name": "shared", "rawDir": "art/shared/_raw", "outDir": "art/shared", "...": "..." }
+    ]
+}
+```
 
 ## Commands
 
 ```bash
 npx figma-ui generate            # write every configured output
 npx figma-ui generate --check    # CI: fail if a committed output differs from its layout
-npx figma-ui assets              # rawDir/*.png -> outDir/*.webp + manifest.json
+npx figma-ui assets              # rawDir/*.png -> outDir/*.webp + manifest.json, every target
+npx figma-ui assets shared       # only the assets target named "shared"
 npx figma-ui composite art/modal-bg.recipe.json --fit
 ```
 

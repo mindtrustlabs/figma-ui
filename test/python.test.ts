@@ -103,3 +103,42 @@ test("assets writes WebP, a shadowless mask and a manifest; rejects duplicate ex
         fs.rmSync(dir, { recursive: true, force: true });
     }
 });
+
+test("assets builds every target of a list, or only the named one", { skip: !hasPillow }, () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "figma-ui-assets-"));
+    try {
+        fs.mkdirSync(path.join(dir, "raw-a"));
+        fs.mkdirSync(path.join(dir, "raw-b"));
+        draw(
+            dir,
+            [
+                "Image.new('RGBA', (20, 20), (255, 0, 0, 255)).save('raw-a/one.png')",
+                "Image.new('RGBA', (20, 20), (0, 255, 0, 255)).save('raw-b/two.png')",
+            ].join("\n"),
+        );
+        const target = (name: string, raw: string, out: string, asset: string) => ({
+            name,
+            rawDir: raw,
+            outDir: out,
+            source: "test",
+            list: { [asset]: { node: "1:1", w: 10, h: 10, kind: "shape" } },
+        });
+        const cfgPath = path.join(dir, "figma-ui.config.json");
+        fs.writeFileSync(
+            cfgPath,
+            JSON.stringify({ assets: [target("a", "raw-a", "out-a", "one"), target("b", "raw-b", "out-b", "two")] }),
+        );
+        const only = py(["-I", path.join(ROOT, "python/assets.py"), cfgPath, "b"]);
+        assert.equal(only.status, 0, only.out);
+        assert.ok(!fs.existsSync(path.join(dir, "out-a")));
+        assert.ok(fs.existsSync(path.join(dir, "out-b/two.webp")));
+        const all = py(["-I", path.join(ROOT, "python/assets.py"), cfgPath]);
+        assert.equal(all.status, 0, all.out);
+        assert.ok(fs.existsSync(path.join(dir, "out-a/manifest.json")));
+        const missing = py(["-I", path.join(ROOT, "python/assets.py"), cfgPath, "nope"]);
+        assert.notEqual(missing.status, 0);
+        assert.match(missing.out, /no assets target named nope/);
+    } finally {
+        fs.rmSync(dir, { recursive: true, force: true });
+    }
+});

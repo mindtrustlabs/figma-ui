@@ -7,10 +7,12 @@ import * as os from "node:os";
 import * as path from "node:path";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
-import { loadConfig } from "../src/config.js";
+import { assetTargets, domTargets, loadConfig, type FigmaUiConfig } from "../src/config.js";
 import { generateFiles, staleFiles, writeFiles } from "../src/generate.js";
 
-const FIXTURE = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../test/fixtures/project");
+const FIXTURES = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../test/fixtures");
+const FIXTURE = path.join(FIXTURES, "project");
+const MULTI = path.join(FIXTURES, "multi");
 
 test("fixture outputs match the golden files", () => {
     const warnings: string[] = [];
@@ -40,4 +42,36 @@ test("the hand-authored tail of a stylesheet survives regeneration", () => {
     } finally {
         fs.rmSync(work, { recursive: true, force: true });
     }
+});
+
+test("dom and assets take one target or a list of them", () => {
+    const one = { inputDir: "a", outDir: "b", manifest: "m", assetUrlCss: "c", assetUrlHtml: "h" };
+    const asset = { rawDir: "r", outDir: "o", source: "s", list: {} };
+    assert.deepEqual(domTargets({ dom: one }), [one]);
+    assert.deepEqual(domTargets({ dom: [one, { ...one, outDir: "d" }] }).map((t) => t.outDir), ["b", "d"]);
+    assert.deepEqual(domTargets({}), []);
+    assert.deepEqual(assetTargets({ assets: asset }), [asset]);
+    assert.deepEqual(assetTargets({ assets: [asset, { ...asset, name: "x" }] }).length, 2);
+});
+
+test("every dom target writes its own surfaces, stylesheet URLs and preview", () => {
+    const files = generateFiles(MULTI, loadConfig(MULTI), () => {});
+    if (process.env.UPDATE_GOLDEN) writeFiles(MULTI, files);
+    assert.deepEqual(staleFiles(MULTI, files), []);
+    assert.deepEqual(files.map((f) => f.path).sort(), [
+        "out/game/hud.css",
+        "out/game/hud.html",
+        "out/game/preview.html",
+        "out/shared/notice.css",
+        "out/shared/notice.html",
+    ]);
+    const shared = files.find((f) => f.path === "out/shared/notice.css")!.content;
+    assert.match(shared, /var\(--ui-scale, 1\)/);
+    assert.doesNotMatch(shared, /--hud-/);
+});
+
+test("two dom targets may not share an output folder", () => {
+    const config = loadConfig(MULTI) as FigmaUiConfig;
+    const [game] = domTargets(config);
+    assert.throws(() => generateFiles(MULTI, { dom: [game, { ...game }] }, () => {}), /two dom targets write to out\/game/);
 });

@@ -1,6 +1,6 @@
 {
     "name": "@mindtrustlabs/figma-ui",
-    "version": "0.2.2",
+    "version": "0.3.0",
     "description": "Figma frames to game and web UI: one layout format, generators per platform (HTML/CSS, Babylon GUI), asset export and layer compositing.",
     "license": "UNLICENSED",
     "private": true,

@@ -1,0 +1,5 @@
+{
+    "_source": "fixture",
+    "aliases": {},
+    "assets": { "paper": { "file": "paper.webp", "px": [400, 300], "node": { "id": "1:1", "w": 200, "h": 150 } } }
+}

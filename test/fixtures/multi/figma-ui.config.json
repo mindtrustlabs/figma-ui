@@ -1,0 +1,23 @@
+{
+    "dom": [
+        {
+            "name": "game",
+            "inputDir": "game/layouts",
+            "outDir": "out/game",
+            "manifest": "game/assets/manifest.json",
+            "assetUrlCss": "../../game/assets",
+            "assetUrlHtml": "./game/assets",
+            "cssVarPrefix": "hud",
+            "preview": { "base": "../../", "surfaceUrl": "./out/game", "title": "Game preview" }
+        },
+        {
+            "name": "shared",
+            "inputDir": "shared/layouts",
+            "outDir": "out/shared",
+            "manifest": "shared/assets/manifest.json",
+            "assetUrlCss": "../../shared/assets",
+            "assetUrlHtml": "./shared/assets",
+            "cssVarPrefix": "ui"
+        }
+    ]
+}

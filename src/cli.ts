@@ -4,7 +4,8 @@
  *
  *   figma-ui generate            regenerate every configured output
  *   figma-ui generate --check    fail when a committed output differs from its layout
- *   figma-ui assets              raw 2x exports -> WebP + manifest (Python + Pillow)
+ *   figma-ui assets [target]     raw 2x exports -> WebP + manifest (Python + Pillow);
+ *                                with a name, only that assets target
  *   figma-ui composite <recipe.json> [--fit]
  *                                stack per-layer renders into one image; --fit nudges
  *                                each layer to best match the reference render
@@ -49,13 +50,13 @@ function main(argv: string[]): number {
         }
         case "assets":
             loadConfig(root);
-            return python("assets.py", [path.join(root, CONFIG_FILE)]);
+            return python("assets.py", [path.join(root, CONFIG_FILE), ...rest.slice(0, 1)]);
         case "composite":
             if (!rest[0]) throw new Error("usage: figma-ui composite <recipe.json> [--fit]");
             return python("composite.py", rest);
         default:
             process.stdout.write(
-                "usage: figma-ui generate [--check] | assets | composite <recipe.json> [--fit]\n" +
+                "usage: figma-ui generate [--check] | assets [target] | composite <recipe.json> [--fit]\n" +
                     "See https://github.com/mindtrustlabs/figma-ui#readme\n",
             );
             return cmd ? 1 : 0;

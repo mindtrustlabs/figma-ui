@@ -9,6 +9,8 @@ import * as path from "node:path";
 import type { BabylonFontOptions } from "./babylon/convert.js";
 
 export interface DomConfig {
+    /** Target name, used in messages and to pick one target on the command line. */
+    name?: string;
     /** Folder of `*.dom.figma.json` layouts. */
     inputDir: string;
     /** Folder the `<surface>.html/.css` (and preview.html) are written to. */
@@ -41,6 +43,8 @@ export interface BabylonConfig {
 }
 
 export interface AssetsConfig {
+    /** Target name, used in messages and to pick one target on the command line. */
+    name?: string;
     /** Folder of raw 2x PNG exports, `<name>.png` (keep it git-ignored). */
     rawDir: string;
     /** Folder the WebP files and manifest.json are written to. */
@@ -57,10 +61,15 @@ export interface AssetsConfig {
     aliases?: Record<string, string>;
 }
 
+/**
+ * `dom` and `assets` each take one target or a list of them, so one project can
+ * generate several surface folders (say, a module's own and a shared one), each
+ * with its own manifest and asset URLs.
+ */
 export interface FigmaUiConfig {
-    dom?: DomConfig;
+    dom?: DomConfig | DomConfig[];
     babylon?: BabylonConfig;
-    assets?: AssetsConfig;
+    assets?: AssetsConfig | AssetsConfig[];
 }
 
 export const CONFIG_FILE = "figma-ui.config.json";
@@ -69,4 +78,16 @@ export function loadConfig(root: string): FigmaUiConfig {
     const file = path.join(root, CONFIG_FILE);
     if (!fs.existsSync(file)) throw new Error(`no ${CONFIG_FILE} in ${root}`);
     return JSON.parse(fs.readFileSync(file, "utf8")) as FigmaUiConfig;
+}
+
+const targets = <T>(section: T | T[] | undefined): T[] => (section == null ? [] : Array.isArray(section) ? section : [section]);
+
+/** Every DOM target, in config order. */
+export function domTargets(config: FigmaUiConfig): DomConfig[] {
+    return targets(config.dom);
+}
+
+/** Every asset target, in config order. */
+export function assetTargets(config: FigmaUiConfig): AssetsConfig[] {
+    return targets(config.assets);
 }

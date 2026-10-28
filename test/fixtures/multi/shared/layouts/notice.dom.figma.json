@@ -1,0 +1,20 @@
+{
+    "frame": { "id": "30:1", "name": "Shared Notice", "width": 1920, "height": 1080 },
+    "surface": "notice",
+    "regions": [{ "name": "card", "x": 860, "y": 465, "w": 200, "h": 150, "anchor": { "h": "CENTER", "v": "CENTER" } }],
+    "nodes": [
+        { "name": "paper", "type": "image", "region": "card", "x": 0, "y": 0, "w": 200, "h": 150, "asset": "paper" },
+        {
+            "name": "title",
+            "type": "text",
+            "region": "card",
+            "bind": "notice-title",
+            "x": 20,
+            "y": 20,
+            "w": 160,
+            "h": 30,
+            "text": "Notice",
+            "font": { "family": "F", "size": 20, "color": "#000", "alignH": "center" }
+        }
+    ]
+}

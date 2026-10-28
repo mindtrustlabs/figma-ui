@@ -1,10 +1,11 @@
 """
 figma-ui assets: raw Figma exports -> shipped WebP files + manifest.json.
 
-Usage: python assets.py <path to figma-ui.config.json>   (needs Pillow)
+Usage: python assets.py <path to figma-ui.config.json> [target name]   (needs Pillow)
 
-Reads the config's "assets" section. For each listed asset it expects
-<rawDir>/<name>.png, a 2x render downloaded straight from Figma, and:
+Reads the config's "assets" section: one target or a list of them (an optional
+second argument builds only the target with that "name"). For each listed asset
+it expects <rawDir>/<name>.png, a 2x render downloaded straight from Figma, and:
   1. fails if two raw exports are byte-identical (export once, alias instead);
   2. encodes "photo" assets as lossy WebP q85 and everything else lossless;
   3. for "mask-source" assets also writes <name>-mask.webp, an alpha mask with
@@ -45,14 +46,7 @@ def encode(src: Path, dst: Path, lossy: bool) -> None:
             im.save(dst, "WEBP", lossless=True, quality=100, method=6)
 
 
-def main() -> None:
-    if len(sys.argv) != 2:
-        sys.exit("usage: assets.py <figma-ui.config.json>")
-    config_path = Path(sys.argv[1]).resolve()
-    root = config_path.parent
-    cfg = json.loads(config_path.read_text(encoding="utf-8")).get("assets")
-    if not cfg:
-        sys.exit("figma-ui.config.json has no \"assets\" section")
+def build(root: Path, cfg: dict) -> None:
     raw = root / cfg["rawDir"]
     out = root / cfg["outDir"]
     assets = cfg["list"]
@@ -103,6 +97,23 @@ def main() -> None:
     (out / "manifest.json").write_text(json.dumps(manifest, indent=4) + "\n", encoding="utf-8")
     print(f"{len(manifest['assets'])} assets, {total / 1024:.0f} KB total -> {cfg['outDir']}")
 
+
+
+def main() -> None:
+    if len(sys.argv) not in (2, 3):
+        sys.exit("usage: assets.py <figma-ui.config.json> [target name]")
+    config_path = Path(sys.argv[1]).resolve()
+    root = config_path.parent
+    section = json.loads(config_path.read_text(encoding="utf-8")).get("assets")
+    if not section:
+        sys.exit("figma-ui.config.json has no \"assets\" section")
+    targets = section if isinstance(section, list) else [section]
+    if len(sys.argv) == 3:
+        targets = [t for t in targets if t.get("name") == sys.argv[2]]
+        if not targets:
+            sys.exit(f"no assets target named {sys.argv[2]}")
+    for cfg in targets:
+        build(root, cfg)
 
 if __name__ == "__main__":
     main()

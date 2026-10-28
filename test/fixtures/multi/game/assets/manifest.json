@@ -1,0 +1,5 @@
+{
+    "_source": "fixture",
+    "aliases": {},
+    "assets": { "bar": { "file": "bar.webp", "px": [400, 40], "node": { "id": "1:6", "w": 200, "h": 20 } } }
+}
