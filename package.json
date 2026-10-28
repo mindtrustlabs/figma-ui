@@ -1,0 +1,54 @@
+{
+    "name": "@mindtrustlabs/figma-ui",
+    "version": "0.1.0",
+    "description": "Figma frames to game and web UI: one layout format, generators per platform (HTML/CSS, Babylon GUI), asset export and layer compositing.",
+    "license": "UNLICENSED",
+    "private": true,
+    "type": "module",
+    "repository": "github:mindtrustlabs/figma-ui",
+    "engines": {
+        "node": ">=20"
+    },
+    "bin": {
+        "figma-ui": "dist/src/cli.js"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/src/index.d.ts",
+            "default": "./dist/src/index.js"
+        },
+        "./dom": {
+            "types": "./dist/src/runtime/dom-surface.d.ts",
+            "default": "./dist/src/runtime/dom-surface.js"
+        },
+        "./babylon": {
+            "types": "./dist/src/runtime/babylon.d.ts",
+            "default": "./dist/src/runtime/babylon.js"
+        }
+    },
+    "files": [
+        "dist/src",
+        "python",
+        "docs",
+        "SKILL.md"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig.json",
+        "prepare": "tsc -p tsconfig.json",
+        "test": "tsc -p tsconfig.json && node --test \"dist/test/*.test.js\""
+    },
+    "peerDependencies": {
+        "@babylonjs/gui": ">=7"
+    },
+    "peerDependenciesMeta": {
+        "@babylonjs/gui": {
+            "optional": true
+        }
+    },
+    "devDependencies": {
+        "@babylonjs/core": "8.54.3",
+        "@babylonjs/gui": "8.54.3",
+        "@types/node": "^24.0.0",
+        "typescript": "^5.6.0"
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "dom": {
+        "inputDir": "layouts",
+        "outDir": "out/dom",
+        "manifest": "assets/manifest.json",
+        "assetUrlCss": "../../assets",
+        "assetUrlHtml": "./assets",
+        "cssVarPrefix": "ui",
+        "preview": { "base": "../../", "surfaceUrl": "./out/dom", "title": "Fixture preview" }
+    },
+    "babylon": {
+        "panels": { "out/babylon/Panel.json": "layouts/panel.figma.json" },
+        "fonts": {
+            "defaultFamily": "Body Font",
+            "map": [{ "match": "mono", "family": "Roboto Mono" }]
+        }
+    }
+}

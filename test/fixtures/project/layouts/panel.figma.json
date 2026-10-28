@@ -1,0 +1,17 @@
+{
+    "frame": { "id": "30:1", "name": "Fixture Panel", "width": 1920, "height": 1080 },
+    "honorNodeFonts": true,
+    "regions": [
+        { "name": "left", "x": 40, "y": 400, "w": 300, "h": 200 },
+        { "name": "right", "x": 1580, "y": 40, "w": 300, "h": 200, "constraints": { "v": "BOTTOM" } },
+        { "name": "inner", "x": 60, "y": 420, "w": 100, "h": 100 }
+    ],
+    "nodes": [
+        { "id": "a", "name": "bg", "type": "RECTANGLE", "x": 40, "y": 400, "w": 300, "h": 200, "fill": "rgba(255, 0, 0, 0.5)", "radius": [4, 4, 0, 0] },
+        { "id": "b", "name": "icon", "type": "ELLIPSE", "x": 70, "y": 430, "w": 20, "h": 20, "stroke": "#fff" },
+        { "id": "c", "name": "score", "type": "TEXT", "x": 1600, "y": 60, "w": 200, "h": 40, "text": "0042", "font": "JetBrains Mono", "size": 24, "align": "right", "valign": "center", "shadow": { "y": 2, "color": "#000" } },
+        { "id": "d", "name": "caption", "type": "TEXT", "x": 1600, "y": 120, "w": 200, "h": 40, "text": "Hi", "fill": "#abc" },
+        { "id": "e", "name": "stray", "type": "RECTANGLE", "x": 900, "y": 500, "w": 10, "h": 10, "fill": "#0f0", "radius": 3 },
+        { "id": "f", "name": "x-line", "type": "LINE", "x": 0, "y": 0, "w": 10, "h": 10 }
+    ]
+}

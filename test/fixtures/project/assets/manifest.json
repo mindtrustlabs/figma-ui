@@ -1,0 +1,12 @@
+{
+    "_source": "fixture",
+    "aliases": { "panel-art": "paper" },
+    "assets": {
+        "paper": { "file": "paper.webp", "px": [400, 300], "node": { "id": "1:1", "w": 200, "h": 150 } },
+        "window-mask": { "file": "window-mask.webp", "px": [220, 170], "node": { "id": "1:2", "w": 200, "h": 150 } },
+        "btn-default": { "file": "btn-default.webp", "px": [244, 108], "node": { "id": "1:3", "w": 120, "h": 52 } },
+        "btn-hover": { "file": "btn-hover.webp", "px": [244, 108], "node": { "id": "1:4", "w": 120, "h": 52 } },
+        "btn-pressed": { "file": "btn-pressed.webp", "px": [244, 108], "node": { "id": "1:5", "w": 120, "h": 52 } },
+        "bar": { "file": "bar.webp", "px": [400, 40], "node": { "id": "1:6", "w": 200, "h": 20 } }
+    }
+}

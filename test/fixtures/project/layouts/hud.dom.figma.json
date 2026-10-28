@@ -1,0 +1,30 @@
+{
+    "frame": { "id": "20:1", "name": "Fixture HUD", "width": 1920, "height": 1080 },
+    "surface": "hud",
+    "regions": [
+        { "name": "top", "x": 0, "y": 0, "w": 1920, "h": 60, "anchor": { "h": "STRETCH", "v": "TOP" } },
+        { "name": "left", "x": 20, "y": 100, "w": 300, "h": 600, "anchor": { "h": "LEFT", "v": "TOP" } },
+        { "name": "corner", "x": 1600, "y": 900, "w": 300, "h": 160, "anchor": { "h": "RIGHT", "v": "BOTTOM" } }
+    ],
+    "nodes": [
+        { "region": "top", "name": "cap-left", "type": "rect", "w": 200, "h": 60, "fill": "#123" },
+        { "region": "top", "name": "news", "type": "frame", "grow": true, "h": 60, "fill": "#456", "children": [{ "name": "track", "type": "frame", "ticker": true, "x": 0, "y": 0, "children": [] }] },
+        { "region": "top", "name": "cap-right", "type": "rect", "w": 200, "h": 60, "fill": "#789" },
+        {
+            "region": "left",
+            "name": "list",
+            "type": "frame",
+            "x": 0,
+            "y": 0,
+            "w": 300,
+            "h": 600,
+            "layout": { "mode": "column", "gap": 8, "padding": "10px 12px", "align": "stretch" },
+            "children": [
+                { "name": "row-a", "type": "rect", "h": 40, "fill": "#eee" },
+                { "name": "row-b", "type": "rect", "h": 40, "fill": "#ddd", "selfAlign": "stretch" },
+                { "name": "gap", "type": "spacer", "grow": true }
+            ]
+        },
+        { "region": "corner", "name": "pin", "type": "rect", "x": 10, "y": 10, "w": 20, "h": 20, "z": 5, "fill": "#c00", "shadow": "0 2px 4px rgba(0,0,0,0.5)" }
+    ]
+}

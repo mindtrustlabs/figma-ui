@@ -1,0 +1,97 @@
+{
+    "frame": { "id": "10:1", "name": "Fixture Modal", "width": 1920, "height": 1080 },
+    "surface": "modal",
+    "order": 1,
+    "regions": [
+        { "name": "backdrop", "x": 0, "y": 0, "w": 1920, "h": 1080, "anchor": { "h": "STRETCH", "v": "STRETCH" } },
+        { "name": "card", "x": 760, "y": 340, "w": 400, "h": 400, "anchor": { "h": "CENTER", "v": "CENTER" } }
+    ],
+    "defs": {
+        "badge": {
+            "name": "badge",
+            "type": "frame",
+            "w": 80,
+            "h": 30,
+            "children": [
+                { "name": "badge-label", "type": "text", "x": 0, "y": 0, "w": 80, "h": 30, "text": "NEW", "font": { "family": "Body", "size": 14, "color": "#fff" } },
+                { "name": "badge-dot", "type": "rect", "x": 70, "y": 0, "w": 10, "h": 10, "fill": "#f00", "radius": "50%" }
+            ]
+        }
+    },
+    "nodes": [
+        { "region": "backdrop", "name": "dim", "type": "rect", "x": 0, "y": 0, "w": "fill", "h": "fill", "fill": "rgba(0, 0, 0, 0.6)" },
+        { "region": "card", "name": "paper", "type": "image", "x": 0, "y": 0, "w": 400, "h": 400, "asset": "panel-art" },
+        {
+            "region": "card",
+            "name": "texture",
+            "type": "texturefill",
+            "x": 0,
+            "y": 0,
+            "w": 400,
+            "h": 400,
+            "asset": "paper",
+            "tile": { "size": 100, "x": 0, "y": 0, "w": 400, "h": 400 },
+            "mask": { "asset": "window-mask", "x": 0, "y": 0, "w": 100, "h": 75 },
+            "blend": "MULTIPLY",
+            "opacity": 0.2
+        },
+        { "region": "card", "name": "glow", "type": "rect", "x": 0, "y": 0, "w": 10, "h": 10, "blend": "LINEAR_DODGE" },
+        {
+            "region": "card",
+            "name": "title",
+            "type": "text",
+            "bind": "modal-title",
+            "x": 20,
+            "y": 20,
+            "w": 360,
+            "h": 40,
+            "rotate": -1.5,
+            "text": "Mission",
+            "font": { "family": "Display", "size": 32, "color": "#222", "alignH": "left", "case": "upper" }
+        },
+        {
+            "region": "card",
+            "name": "count",
+            "type": "text",
+            "bind": "modal-count",
+            "x": 20,
+            "y": 80,
+            "w": 100,
+            "h": 30,
+            "text": [{ "t": "x" }, { "t": "4", "size": 28, "weight": 700 }],
+            "font": { "family": "Display", "size": 18, "color": "#222" }
+        },
+        { "region": "card", "name": "desc", "type": "text", "bind": "modal-desc", "x": 20, "y": 120, "w": 360, "text": "Line one\nLine two", "font": { "family": "Body", "size": 16, "color": "#333", "lineHeight": "20px" } },
+        {
+            "region": "card",
+            "name": "meter",
+            "type": "frame",
+            "x": 20,
+            "y": 180,
+            "w": 200,
+            "h": 20,
+            "children": [
+                { "name": "meter-track", "type": "image", "x": 0, "y": 0, "w": 200, "h": 20, "asset": "bar", "opacity": 0.25 },
+                { "name": "meter-fill", "type": "image", "bind": "modal-meter-fill", "x": 0, "y": 0, "w": 200, "h": 20, "asset": "bar", "stretch": "x" }
+            ]
+        },
+        { "region": "card", "name": "badge", "type": "use", "def": "badge", "x": 300, "y": 80, "over": { "badge-label": { "text": "HOT" }, "badge-dot": { "remove": true } } },
+        {
+            "region": "card",
+            "name": "begin",
+            "type": "frame",
+            "bind": "modal-begin-btn",
+            "interactive": true,
+            "x": 140,
+            "y": 330,
+            "w": 120,
+            "h": 52,
+            "children": [
+                { "name": "begin-default", "type": "image", "x": 0, "y": 0, "w": 120, "h": 52, "asset": "btn-default" },
+                { "name": "begin-hover", "type": "image", "state": "hover", "x": 0, "y": 0, "w": 120, "h": 52, "asset": "btn-hover" },
+                { "name": "begin-pressed", "type": "image", "state": "active", "x": 0, "y": 0, "w": 120, "h": 52, "asset": "btn-pressed" },
+                { "name": "begin-label", "type": "text", "bind": "modal-begin-label", "x": 0, "y": 0, "w": 120, "h": 52, "text": "Begin", "font": { "family": "Display", "size": 20, "color": "#000" } }
+            ]
+        }
+    ]
+}
