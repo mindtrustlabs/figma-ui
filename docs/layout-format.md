@@ -21,12 +21,12 @@ Two formats exist today: the DOM layout (`*.dom.figma.json`) is the full one; th
 
 ```json
 {
-    "frame": { "id": "174:10720", "name": "Preview Reference", "width": 1920, "height": 1080 },
+    "frame": { "id": "12:300", "name": "Preview Reference", "width": 1920, "height": 1080 },
     "surface": "briefing",
     "order": 1,
-    "regions": [{ "name": "modal", "x": 533, "y": 105, "w": 854, "h": 823, "anchor": { "h": "CENTER", "v": "CENTER" } }],
+    "regions": [{ "name": "modal", "x": 560, "y": 240, "w": 800, "h": 600, "anchor": { "h": "CENTER", "v": "CENTER" } }],
     "defs": {},
-    "nodes": [{ "region": "modal", "name": "title", "type": "text", "bind": "brief-title", "x": 345, "y": 81, "w": 340, "text": "Mission", "font": { "family": "Englebert", "size": 33.93, "color": "#222" } }]
+    "nodes": [{ "region": "modal", "name": "title", "type": "text", "bind": "brief-title", "x": 240, "y": 64, "w": 320, "text": "Welcome", "font": { "family": "Inter", "size": 32, "color": "#222" } }]
 }
 ```
 
@@ -94,12 +94,12 @@ Written by `figma-ui assets`; the generators read it.
     "_source": "Figma <fileKey> frames ..., exported @2x",
     "aliases": { "banner-red": "banner-blue" },
     "assets": {
-        "mission-bg": {
-            "file": "mission-bg.webp",
-            "bytes": 286172,
+        "modal-bg": {
+            "file": "modal-bg.webp",
+            "bytes": 184320,
             "sha1": "…",
-            "px": [1710, 1647],
-            "node": { "id": "174:9845", "w": 854.29, "h": 823.06 },
+            "px": [1600, 1200],
+            "node": { "id": "12:345", "w": 800, "h": 600 },
             "kind": "photo"
         }
     }

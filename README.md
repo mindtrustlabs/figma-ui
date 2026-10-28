@@ -19,7 +19,7 @@ Your app imports only the runtime it uses: a React/Next or plain web project imp
 ## Install
 
 ```bash
-npm i -D github:mindtrustlabs/figma-ui#v0.2.0
+npm i -D github:mindtrustlabs/figma-ui#v0.2.1
 ```
 
 Pin a tag; upgrade per project when you want a newer generator. Node 20+. The asset tools need
@@ -49,7 +49,7 @@ root.
         "rawDir": "public/ui/art/_raw",
         "outDir": "public/ui/art",
         "source": "Figma <fileKey> frame <id>, exported @2x",
-        "list": { "modal-bg": { "node": "174:9845", "w": 854.29, "h": 823.06, "kind": "photo" } }
+        "list": { "modal-bg": { "node": "12:345", "w": 800, "h": 600, "kind": "photo" } }
     }
 }
 ```
@@ -67,7 +67,7 @@ root.
 npx figma-ui generate            # write every configured output
 npx figma-ui generate --check    # CI: fail if a committed output differs from its layout
 npx figma-ui assets              # rawDir/*.png -> outDir/*.webp + manifest.json
-npx figma-ui composite art/mission.recipe.json --fit
+npx figma-ui composite art/modal-bg.recipe.json --fit
 ```
 
 Generated files are never edited by hand. Rules a design can't express go at the end of a
@@ -84,7 +84,7 @@ class Briefing extends DomSurface {
         super("briefing", { baseDir: "./public/ui", zIndex: 20, cssVarPrefix: "ui" });
     }
     protected onMounted(): void {
-        this.setText("brief-title", "Microchip Shortage");
+        this.setText("brief-title", "Welcome back");
         this.setRun("brief-count", "4"); // last run of "x4", keeps its styling
         this.setFillWidth("brief-meter-fill", 0.62, 223.59);
         this.onClick("brief-begin-btn", this.onBegin);

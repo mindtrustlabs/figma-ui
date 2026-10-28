@@ -29,7 +29,7 @@ claude mcp add figma -- npx -y figma-developer-mcp --figma-api-key="$FIGMA_API_K
 ```
 
 From a "Copy link to selection" URL: the file key is the segment after `/design/`; the node id is
-the `node-id` parameter with the dash turned into a colon (`174-9845` → `174:9845`).
+the `node-id` parameter with the dash turned into a colon (`12-345` → `12:345`).
 
 ## Procedure
 

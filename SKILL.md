@@ -9,7 +9,7 @@ Read `node_modules/@mindtrustlabs/figma-ui/docs/figma-export-guide.md` (the trap
 `docs/layout-format.md` (the contract) before starting. The project's settings are in
 `figma-ui.config.json`.
 
-1. From the designer's link, take the file key and node id (`174-9845` → `174:9845`). Read the
+1. From the designer's link, take the file key and node id (`12-345` → `12:345`). Read the
    tree with `get_metadata` and values with `get_figma_data`; run `get_design_context` on every
    blended, textured or semi-transparent node for opacity and tile sizes.
 2. Decide what is live (text the game changes, bars, buttons) and what is static art. Name every

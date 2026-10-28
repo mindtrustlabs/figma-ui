@@ -11,10 +11,10 @@ size of the reference render (Figma's own render of the whole component).
 Recipe (paths relative to the recipe file, positions in output pixels):
 {
     "reference": "full.png",
-    "output": "mission-bg.png",
+    "output": "modal-bg.png",
     "layers": [
-        { "file": "l01-folder.png", "at": [0, 14] },
-        { "file": "l19-stain.png", "at": [149, 1169], "blend": "multiply" }
+        { "file": "l01-paper.png", "at": [0, 0] },
+        { "file": "l02-stain.png", "at": [120, 640], "blend": "multiply" }
     ],
     "exclude": [[x, y, w, h], ...]
 }
