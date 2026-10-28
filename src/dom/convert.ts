@@ -338,6 +338,9 @@ export class DomConverter {
                     return rd.length ? `<span style="${rd.join("; ")}">${esc(r.t)}</span>` : `<span>${esc(r.t)}</span>`;
                 })
                 .join("");
+            // In a flex box each bare span would be a flex item and lose the spaces at its
+            // edges; one wrapper keeps the runs flowing inline as a single line of text.
+            if (typeof node.h === "number") inner = `<div>${inner}</div>`;
         }
         return `${indent}<div class="${c}"${this.bindAttr(node)} data-name="${esc(node.name)}">${inner}</div>\n`;
     }

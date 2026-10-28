@@ -119,6 +119,23 @@ test("every text run is its own span so the runtime can address it", () => {
     assert.match(html, /<span>x<\/span><span style="font-weight: 700">4<\/span>/);
 });
 
+test("runs in a fixed-height box flow inside one wrapper so spaces between runs survive", () => {
+    const { html } = convertDom(
+        layout([
+            {
+                name: "floor",
+                type: "text",
+                h: 40,
+                text: [{ t: "Above " }, { t: "30%", size: 12 }],
+                font: { family: "F", size: 10, color: "#000" },
+            },
+        ]),
+        manifest,
+        opts,
+    );
+    assert.match(html, /data-name="floor"><div><span>Above <\/span><span style="[^"]*">30%<\/span><\/div><\/div>/);
+});
+
 test("use nodes take placement from the instance and can drop descendants", () => {
     const l = layout([{ name: "inst", type: "use", def: "d", x: 7, y: 9, over: { gone: { remove: true } } }]);
     l.defs = {
